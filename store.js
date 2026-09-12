@@ -77,6 +77,18 @@ window.MP = (function () {
 
   const today = () => iso(new Date());
 
+  // semana ISO (segunda a domingo): "2026-W37". A quinta-feira define o ano da semana.
+  function weekKey(date = new Date()) {
+    const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    d.setDate(d.getDate() - ((d.getDay() + 6) % 7) + 3);
+
+    const firstThursday = new Date(d.getFullYear(), 0, 4);
+    firstThursday.setDate(firstThursday.getDate() - ((firstThursday.getDay() + 6) % 7) + 3);
+
+    const week = 1 + Math.round((d - firstThursday) / (7 * 24 * 60 * 60 * 1000));
+    return `${d.getFullYear()}-W${String(week).padStart(2, '0')}`;
+  }
+
   // indice do dia da semana com segunda = 0
   const weekIndex = (date) => (date.getDay() + 6) % 7;
 
@@ -233,7 +245,7 @@ window.MP = (function () {
   return {
     h, svg, clear, read, write, uid,
     MONTHS, MONTHS_SHORT, WEEKDAYS, WEEKDAYS_MIN,
-    iso, today, parseISO, weekIndex, fmtDate, fmtSize,
+    iso, today, weekKey, parseISO, weekIndex, fmtDate, fmtSize,
     sheet, field, actions, invalid, files, images,
     views: {} // cada modulo se registra aqui
   };

@@ -12,7 +12,7 @@ canto esquerdo) e a area principal com as secoes:
 | **Anotacoes** | varias notas com titulo e texto, salvas automaticamente |
 | **Arquivos** | arraste arquivos (ficam no navegador), baixe ou apague |
 | **Rotina** | itens com horario; os checks valem para o dia de hoje |
-| **Academia** | treinos com exercicios (series, reps, carga) e registro de treinos feitos |
+| **Academia** | treinos com exercicios (series, reps, descanso), check verde por exercicio que zera toda semana, e registro de treinos feitos |
 
 No canto direito fica o **perfil**: clique na foto redonda ou no icone de camera da capa para
 subir uma imagem ou gif do aparelho; o nome e a bio sao campos — clique e escreva. Em telas
@@ -125,6 +125,9 @@ repeticoes, descanso e grupo muscular de cada exercicio. Eles sao importados **u
 navegador** — a marca fica em `mp.gymSeed`:
 
 - apagar um treino na tela **nao** faz ele voltar no proximo F5;
+- o check verde de cada exercicio fica em `mp.gymDone`, guardado por semana ISO
+  (segunda a domingo). Virou segunda, comeca tudo zerado — as 4 ultimas semanas ficam
+  guardadas e o resto e descartado;
 - para mudar os treinos, edite `routines.js` e suba o `SEED_VERSION` (`v1` -> `v2`), que
   a importacao roda de novo e acrescenta o que estiver faltando;
 - por isso eles tambem aparecem sozinhos no Vercel, sem voce digitar nada la.

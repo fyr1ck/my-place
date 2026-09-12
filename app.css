@@ -285,9 +285,11 @@ body.ready .tabbar { animation: appIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.08s f
 .check:hover { border-color: rgba(255, 255, 255, 0.55); }
 .check:active { transform: scale(0.88); }
 
+/* verde = feito, em tarefas, rotina e exercicios */
 .check[data-on="true"] {
-  background: var(--blue);
-  border-color: var(--blue);
+  background: var(--green);
+  border-color: var(--green);
+  color: #06220f;
 }
 
 .check svg { width: 15px; height: 15px; }

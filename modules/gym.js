@@ -2,11 +2,21 @@
 (function (MP) {
   const KEY = 'mp.gym'; // [{ id, name, reps, exercises: [{ id, name }] }]
   const LOG = 'mp.gymLog'; // [{ date, workoutId }]
+  const DONE = 'mp.gymDone'; // { "2026-W37": [idsDosExerciciosFeitos] }
 
   const load = () => MP.read(KEY, []);
   const save = (list) => MP.write(KEY, list);
   const loadLog = () => MP.read(LOG, []);
   const saveLog = (list) => MP.write(LOG, list);
+  const loadDone = () => MP.read(DONE, {});
+
+  // guarda so as ultimas semanas: o resto nao serve para nada
+  function saveDone(all) {
+    const keep = Object.keys(all).sort().slice(-4);
+    const trimmed = {};
+    keep.forEach((k) => { trimmed[k] = all[k]; });
+    MP.write(DONE, trimmed);
+  }
 
   let currentId = null;
 
@@ -18,6 +28,19 @@
         const list = load();
         fn(list);
         save(list);
+        render();
+      }
+
+      // marca/desmarca um exercicio na semana corrente
+      function toggleExercise(id) {
+        const week = MP.weekKey();
+        const all = loadDone();
+        const list = all[week] || [];
+
+        all[week] = list.includes(id) ? list.filter((x) => x !== id) : list.concat(id);
+        if (!all[week].length) delete all[week];
+
+        saveDone(all);
         render();
       }
 
@@ -204,9 +227,15 @@
           .sort((a, b) => b.date.localeCompare(a.date));
         const doneToday = log.some((entry) => entry.date === MP.today());
 
+        // exercicios marcados nesta semana (zeram sozinhos na segunda)
+        const week = MP.weekKey();
+        const checked = loadDone()[week] || [];
+        const feitos = exercises.filter((ex) => checked.includes(ex.id)).length;
+
         const resumo = [
           `${exercises.length} exercicio(s)`,
           workout.reps ? `${workout.reps} repeticoes` : null,
+          exercises.length ? `${feitos}/${exercises.length} nesta semana` : null,
           log.length ? `ultimo em ${MP.fmtDate(log[0].date, { short: true })}` : 'nunca registrado'
         ].filter(Boolean).join(' · ');
 
@@ -271,9 +300,17 @@
             const volume = ex.sets && rep ? `${ex.sets} × ${rep}`
               : ex.sets ? `${ex.sets} series`
                 : rep ? `${rep} reps` : null;
+            const isDone = checked.includes(ex.id);
 
-            rows.push(MP.h('div', { class: 'row' },
-              MP.h('i', { class: 'row__bullet' }),
+            rows.push(MP.h('div', { class: 'row', dataset: { done: String(isDone) } },
+              MP.h('button', {
+                class: 'check',
+                type: 'button',
+                dataset: { on: String(isDone) },
+                'aria-label': isDone ? 'Desmarcar exercicio' : 'Marcar como feito',
+                svg: isDone ? '<path d="m7.5 12.4 3 3 6-6.4"/>' : '',
+                onclick: () => toggleExercise(ex.id)
+              }),
               MP.h('span', { class: 'row__text', text: ex.name }),
               volume ? MP.h('span', { class: 'pill', text: volume }) : null,
               ex.rest ? MP.h('span', { class: 'pill pill--soft', text: ex.rest }) : null,
