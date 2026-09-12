@@ -15,7 +15,7 @@ canto esquerdo) e a area principal com as secoes:
 | **Academia** | treinos com exercicios (series, reps, descanso), check verde por exercicio que zera toda semana, e registro de treinos feitos |
 
 No canto direito fica o **perfil**: clique na foto redonda ou no icone de camera da capa para
-subir uma imagem ou gif do aparelho; o nome e a bio sao campos — clique e escreva. Em telas
+subir uma imagem ou gif do aparelho; o nome e a bio sao campos - clique e escreva. Em telas
 menores que 1360px o perfil vai para o topo do conteudo.
 
 Enquadramento da foto e da capa (as duas funcionam igual):
@@ -29,12 +29,12 @@ Enquadramento da foto e da capa (as duas funcionam igual):
 
 A posicao fica salva em `mp.profileView` e e reiniciada quando voce sobe uma imagem nova.
 
-O botao de paleta, no canto direito do card, abre as duas cores do widget (topo e base) — o
+O botao de paleta, no canto direito do card, abre as duas cores do widget (topo e base) - o
 card vira um gradiente de cima para baixo. "Cor padrao" volta ao cinza translucido original.
 Fica salvo em `mp.profileColors`.
 
 O site sempre abre no **Inicio**. Tudo comeca vazio. Os dados ficam **nesta maquina**: textos no `localStorage` e arquivos no
-IndexedDB do navegador — nada sai daqui e nada e enviado para nenhum servidor.
+IndexedDB do navegador - nada sai daqui e nada e enviado para nenhum servidor.
 
 ## Acesso
 
@@ -45,7 +45,7 @@ const EMAIL = 'joao.jhcc19@gmail.com';
 ```
 
 No primeiro acesso a tela pede esse e-mail e uma senha nova. Dali em diante a tela de
-cadastro nunca mais aparece nesse navegador — so o campo de senha, com o e-mail fixo — e
+cadastro nunca mais aparece nesse navegador - so o campo de senha, com o e-mail fixo - e
 voce entra direto nas proximas vezes (a sessao fica salva ate clicar em "Sair", no popover
 de cor do perfil).
 
@@ -55,7 +55,7 @@ DevTools (Application > Local Storage) e cadastre de novo.
 
 > Importante: essa trava roda no navegador, entao ela **esconde a interface, nao protege os
 > dados**. Quem abrir o site em outro navegador cai na tela de cadastro e, se souber o
-> e-mail, consegue criar um acesso — mas veria o site **vazio**, porque todo o conteudo fica
+> e-mail, consegue criar um acesso - mas veria o site **vazio**, porque todo o conteudo fica
 > no navegador de quem escreveu, nunca num servidor. Para barrar de verdade no Vercel, use
 > Settings > Deployment Protection no projeto.
 
@@ -71,41 +71,47 @@ O `serve.py` manda `Cache-Control: no-store`, entao editar um arquivo e dar F5 j
 versao nova (com `python -m http.server` o Chrome guardava o CSS/JS em cache e era preciso
 Ctrl+Shift+R toda vez).
 
-O login do Spotify **nao funciona** abrindo `index.html` direto (`file://`) — precisa ser
+O login do Spotify **nao funciona** abrindo `index.html` direto (`file://`) - precisa ser
 por `http://127.0.0.1:5173`.
 
-## Conectar o Spotify (uma vez so)
+## Conectar o Spotify
 
-1. Entre em https://developer.spotify.com/dashboard e clique em **Create app**
-   (nome e descricao podem ser qualquer coisa).
-2. Em **Redirect URIs**, adicione exatamente:
+O Client ID ja esta no codigo, em `spotify.js`:
 
-   ```
-   http://127.0.0.1:5173/
-   ```
+```js
+const CLIENT_ID = '06834985f77b46869f100da21bbf119e';
+```
 
-3. Em **APIs used**, marque **Web API**. Salve.
-4. Copie o **Client ID** do app.
-5. No site, cole o Client ID no campo do widget, clique em **Salvar** e depois em
-   **Conectar Spotify**. Autorize na tela do Spotify.
+Basta clicar em **Conectar Spotify** no widget e autorizar. Nao ha nada para colar.
 
-O Client ID e os tokens ficam no `localStorage` do navegador — nada sai da sua maquina
-alem das chamadas para a API do Spotify.
+Em um endereco novo (o do Vercel, por exemplo), o unico passo e cadastrar aquele endereco
+em **Redirect URIs** no app do Spotify Developer Dashboard, exatamente como o navegador o
+mostra:
+
+```
+http://127.0.0.1:5173/
+https://SEU-PROJETO.vercel.app/
+```
+
+> O Client ID **nao e um segredo**: no fluxo PKCE ele viaja na propria URL de autorizacao,
+> visivel na barra do navegador. Quem tiver ele nao consegue nada sem os Redirect URIs
+> cadastrados no app, e nao existe client secret nesse fluxo. Os tokens ficam no
+> `localStorage` do seu navegador.
 
 ## Publicar no Vercel
 
 E um site estatico, sem build: basta importar a pasta no Vercel (framework "Other").
 Ja estao no repo:
 
-- `vercel.json` — revalidacao de cache (evita versao velha depois do deploy) e `noindex`
-- `.vercelignore` — deixa o `serve.py` e o `.claude` fora do deploy
-- `robots.txt` — pede para os buscadores nao indexarem
+- `vercel.json` - revalidacao de cache (evita versao velha depois do deploy) e `noindex`
+- `.vercelignore` - deixa o `serve.py` e o `.claude` fora do deploy
+- `robots.txt` - pede para os buscadores nao indexarem
 
 Depois do primeiro deploy, faltam duas coisas suas:
 
 1. **Spotify**: adicione `https://SEU-PROJETO.vercel.app/` nos Redirect URIs do app no
    Spotify Developer Dashboard. O codigo monta o redirect a partir do endereco atual,
-   entao nao ha nada para mudar no site — mas o endereco novo precisa estar cadastrado la.
+   entao nao ha nada para mudar no site - mas o endereco novo precisa estar cadastrado la.
 2. **Seus dados nao vao junto.** Tudo fica no navegador e o endereco muda
    (`127.0.0.1:5173` -> `seu-projeto.vercel.app`), que para o navegador e outro site. O que
    voce escreveu local continua local; no Vercel voce comeca de novo (inclusive o cadastro
@@ -122,11 +128,11 @@ no fundo escuro (ou Esc) para fechar. A barra de abas fica embaixo, so com os ic
 
 Os cinco treinos da semana (segunda a sexta) ficam em `routines.js`, com serie, faixa de
 repeticoes, descanso e grupo muscular de cada exercicio. Eles sao importados **uma vez por
-navegador** — a marca fica em `mp.gymSeed`:
+navegador** - a marca fica em `mp.gymSeed`:
 
 - apagar um treino na tela **nao** faz ele voltar no proximo F5;
 - o check verde de cada exercicio fica em `mp.gymDone`, guardado por semana ISO
-  (segunda a domingo). Virou segunda, comeca tudo zerado — as 4 ultimas semanas ficam
+  (segunda a domingo). Virou segunda, comeca tudo zerado - as 4 ultimas semanas ficam
   guardadas e o resto e descartado;
 - para mudar os treinos, edite `routines.js` e suba o `SEED_VERSION` (`v1` -> `v2`), que
   a importacao roda de novo e acrescenta o que estiver faltando;
@@ -135,7 +141,7 @@ navegador** — a marca fica em `mp.gymSeed`:
 ## Tempo
 
 O widget usa a **Open-Meteo** (gratuita, sem chave de API) para o clima e a
-**BigDataCloud** para o nome da cidade — as duas direto do navegador, nada de servidor
+**BigDataCloud** para o nome da cidade - as duas direto do navegador, nada de servidor
 nem de segredo no codigo.
 
 - A localizacao vem do `navigator.geolocation`. Se voce negar a permissao (ou ela falhar),

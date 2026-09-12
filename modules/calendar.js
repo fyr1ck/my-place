@@ -120,7 +120,7 @@
   }
 
   MP.views.calendario = {
-    title: 'Calendario',
+    title: 'Calendário',
 
     mount(root) {
       function render() {

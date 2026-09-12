@@ -61,7 +61,7 @@
         title.addEventListener('keydown', (e) => { if (e.key === 'Enter') create(); });
 
         MP.sheet.open('Novo item da rotina', MP.h('div', {},
-          MP.field('Horario (opcional)', time),
+          MP.field('Horário (opcional)', time),
           MP.field('O que fazer', title),
           MP.actions('Adicionar', create)
         ), { center: true });
@@ -81,7 +81,7 @@
           root.append(MP.h('div', { class: 'empty' },
             MP.h('div', { class: 'empty__icon', svg: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 2"/>' }),
             MP.h('p', { class: 'empty__title', text: 'Rotina vazia' }),
-            MP.h('p', { class: 'empty__hint', text: 'Monte os horarios e o que fazer em cada um.' }),
+            MP.h('p', { class: 'empty__hint', text: 'Monte os horários e o que fazer em cada um.' }),
             MP.h('div', { class: 'empty__action' },
               MP.h('button', {
                 class: 'btn btn--blue', type: 'button', text: '+ Novo item', onclick: openCreate

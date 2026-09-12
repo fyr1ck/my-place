@@ -1,10 +1,10 @@
 // Shell: barra de abas, titulo e troca de secao.
 (function (MP) {
   const TABS = [
-    { id: 'inicio', label: 'Inicio', icon: '<path d="M4 10.8 12 4.5l8 6.3V19a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19v-8.2Z"/><path d="M9.6 20.5v-6h4.8v6"/>' },
-    { id: 'calendario', label: 'Calendario', icon: '<rect x="3" y="4.5" width="18" height="16" rx="4"/><path d="M3 9.5h18M8 3v3M16 3v3"/>' },
+    { id: 'inicio', label: 'Início', icon: '<path d="M4 10.8 12 4.5l8 6.3V19a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19v-8.2Z"/><path d="M9.6 20.5v-6h4.8v6"/>' },
+    { id: 'calendario', label: 'Calendário', icon: '<rect x="3" y="4.5" width="18" height="16" rx="4"/><path d="M3 9.5h18M8 3v3M16 3v3"/>' },
     { id: 'tarefas', label: 'Tarefas', icon: '<circle cx="12" cy="12" r="8.5"/><path d="m8.3 12.2 2.6 2.6 4.8-5.2"/>' },
-    { id: 'anotacoes', label: 'Anotacoes', icon: '<path d="M5.5 4.5h9L19 9v10.5h-13z"/><path d="M8.5 12h7M8.5 15.5h5"/>' },
+    { id: 'anotacoes', label: 'Anotações', icon: '<path d="M5.5 4.5h9L19 9v10.5h-13z"/><path d="M8.5 12h7M8.5 15.5h5"/>' },
     { id: 'arquivos', label: 'Arquivos', icon: '<path d="M3.5 8.2c0-1.4 1-2.4 2.4-2.4h2.9l2 2.2h6.3c1.4 0 2.4 1 2.4 2.4v6.4c0 1.4-1 2.4-2.4 2.4H5.9c-1.4 0-2.4-1-2.4-2.4Z"/>' },
     { id: 'rotina', label: 'Rotina', icon: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 2"/>' },
     { id: 'academia', label: 'Academia', icon: '<path d="M6.5 9v6M4 10.5v3M17.5 9v6M20 10.5v3M6.5 12h11"/>' }
@@ -42,7 +42,7 @@
 
     MP.clear(view);
     if (module) module.mount(view);
-    else view.append(MP.h('p', { class: 'empty-line', text: 'Secao nao carregada.' }));
+    else view.append(MP.h('p', { class: 'empty-line', text: 'Seção não carregada.' }));
 
     // reinicia a animacao de entrada
     app.classList.remove('app--switch');

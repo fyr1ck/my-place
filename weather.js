@@ -7,7 +7,7 @@
   const STALE_MS = 15 * 60 * 1000;
 
   // usada quando a geolocalizacao e negada ou falha
-  const FALLBACK = { lat: -23.5505, lon: -46.6333, city: 'Sao Paulo' };
+  const FALLBACK = { lat: -23.5505, lon: -46.6333, city: 'São Paulo' };
 
   const FORECAST_URL = 'https://api.open-meteo.com/v1/forecast';
   const GEO_URL = 'https://api.bigdatacloud.net/data/reverse-geocode-client';
@@ -26,7 +26,7 @@
   const THUNDER = CLOUD + '<path d="M13.2 19.6 10.6 23h3l-.8 2.2"/><path d="m13.4 19.8-2.4 3.1h2.6l-.7 1.9"/>';
 
   const CONDITIONS = {
-    0: { text: 'Ceu limpo', group: 'clear' },
+    0: { text: 'Céu limpo', group: 'clear' },
     1: { text: 'Quase limpo', group: 'clear' },
     2: { text: 'Parcialmente nublado', group: 'partly' },
     3: { text: 'Nublado', group: 'cloud' },
@@ -118,9 +118,9 @@
       const names = [data.locality, data.city, data.principalSubdivision]
         .filter((n) => n && n.trim());
 
-      return names.find((n) => n.length <= 30) || names[0] || 'Sua regiao';
+      return names.find((n) => n.length <= 30) || names[0] || 'Sua região';
     } catch (_) {
-      return 'Sua regiao';
+      return 'Sua região';
     }
   }
 
@@ -179,7 +179,7 @@
 
   function errorState(onRetry) {
     return MP.h('div', { class: 'wx__error' },
-      MP.h('p', { class: 'wx__error-text', text: 'Nao deu para carregar o tempo agora.' }),
+      MP.h('p', { class: 'wx__error-text', text: 'Não deu para carregar o tempo agora.' }),
       MP.h('button', {
         class: 'btn btn--plain btn--sm', type: 'button', text: 'Tentar de novo', onclick: onRetry
       })
@@ -196,7 +196,7 @@
         MP.h('div', { class: 'wx__read' },
           MP.h('strong', { class: 'wx__temp' }, `${data.temp}°`),
           MP.h('p', { class: 'wx__cond', text: now.text }),
-          MP.h('p', { class: 'wx__meta', text: `sensacao ${data.feels}° · umidade ${data.humidity}%` })
+          MP.h('p', { class: 'wx__meta', text: `sensação ${data.feels}° · umidade ${data.humidity}%` })
         )
       ),
 
@@ -218,7 +218,7 @@
           }))
         : null,
 
-      stale ? MP.h('p', { class: 'wx__stale', text: 'sem conexao — mostrando o ultimo dado' }) : null
+      stale ? MP.h('p', { class: 'wx__stale', text: 'sem conexão · mostrando o último dado' }) : null
     );
   }
 
@@ -230,7 +230,7 @@
   function tile() {
     const city = MP.h('span', { class: 'wx__city' },
       MP.h('i', { class: 'wx__pin', svg: '<path d="M12 21s6.2-5.3 6.2-10.2A6.2 6.2 0 0 0 5.8 10.8C5.8 15.7 12 21 12 21Z"/><circle cx="12" cy="10.6" r="2.1"/>' }),
-      MP.h('span', { class: 'wx__city-name', text: '—' })
+      MP.h('span', { class: 'wx__city-name', text: '' })
     );
 
     const slot = MP.h('div', { class: 'wx__slot' });

@@ -71,7 +71,7 @@
       const typed = el.email.value.trim().toLowerCase();
 
       if (typed !== EMAIL) {
-        fail('Esse e-mail nao tem acesso a este site.');
+        fail('Esse e-mail não tem acesso a este site.');
         return;
       }
 
@@ -81,7 +81,7 @@
       }
 
       if (password !== el.pass2.value) {
-        fail('As senhas nao batem.');
+        fail('As senhas não batem.');
         return;
       }
 

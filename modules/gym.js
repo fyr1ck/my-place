@@ -51,7 +51,7 @@
 
         const name = MP.h('input', {
           class: 'input', type: 'text', maxlength: 60, spellcheck: 'false',
-          placeholder: 'Ex: Treino A - Peito e Triceps'
+          placeholder: 'Ex: Treino A - Peito e Tríceps'
         });
 
         const reps = MP.h('input', {
@@ -70,7 +70,7 @@
           MP.clear(list);
 
           if (!exercises.length) {
-            list.append(MP.h('p', { class: 'empty-line', text: 'Nenhum exercicio adicionado ainda.' }));
+            list.append(MP.h('p', { class: 'empty-line', text: 'Nenhum exercício adicionado ainda.' }));
             return;
           }
 
@@ -136,8 +136,8 @@
 
         const form = MP.h('div', {},
           MP.field('Nome do treino', name),
-          MP.field('Quantidade de repeticoes', reps),
-          MP.field('Nome dos exercicios',
+          MP.field('Quantidade de repetições', reps),
+          MP.field('Nome dos exercícios',
             MP.h('div', { class: 'form-row' },
               exName,
               MP.h('button', { class: 'btn', type: 'button', text: 'Adicionar', onclick: addExercise })
@@ -177,7 +177,7 @@
       // adiciona exercicio num treino que ja existe
       function exerciseForm(workout) {
         const name = MP.h('input', {
-          class: 'input', type: 'text', spellcheck: 'false', placeholder: 'Novo exercicio'
+          class: 'input', type: 'text', spellcheck: 'false', placeholder: 'Novo exercício'
         });
 
         function add() {
@@ -209,7 +209,7 @@
           root.append(MP.h('div', { class: 'empty' },
             MP.h('div', { class: 'empty__icon', svg: '<path d="M6.5 9v6M4 10.5v3M17.5 9v6M20 10.5v3M6.5 12h11"/>' }),
             MP.h('p', { class: 'empty__title', text: 'Nenhum treino' }),
-            MP.h('p', { class: 'empty__hint', text: 'Monte um treino com os exercicios e as repeticoes.' }),
+            MP.h('p', { class: 'empty__hint', text: 'Monte um treino com os exercícios e as repetições.' }),
             MP.h('div', { class: 'empty__action' },
               MP.h('button', {
                 class: 'btn btn--blue', type: 'button', text: '+ Criar treino', onclick: openCreate
@@ -233,10 +233,10 @@
         const feitos = exercises.filter((ex) => checked.includes(ex.id)).length;
 
         const resumo = [
-          `${exercises.length} exercicio(s)`,
-          workout.reps ? `${workout.reps} repeticoes` : null,
+          `${exercises.length} exercício(s)`,
+          workout.reps ? `${workout.reps} repetições` : null,
           exercises.length ? `${feitos}/${exercises.length} nesta semana` : null,
-          log.length ? `ultimo em ${MP.fmtDate(log[0].date, { short: true })}` : 'nunca registrado'
+          log.length ? `último em ${MP.fmtDate(log[0].date, { short: true })}` : 'nunca registrado'
         ].filter(Boolean).join(' · ');
 
         root.append(
@@ -281,7 +281,7 @@
 
         if (!exercises.length) {
           root.append(MP.h('div', { class: 'empty empty--sm' },
-            MP.h('p', { class: 'empty__title', text: 'Sem exercicios nesse treino' })
+            MP.h('p', { class: 'empty__title', text: 'Sem exercícios nesse treino' })
           ));
         } else {
           const rows = [];
@@ -298,7 +298,7 @@
 
             const rep = ex.reps || workout.reps;
             const volume = ex.sets && rep ? `${ex.sets} × ${rep}`
-              : ex.sets ? `${ex.sets} series`
+              : ex.sets ? `${ex.sets} séries`
                 : rep ? `${rep} reps` : null;
             const isDone = checked.includes(ex.id);
 
@@ -307,7 +307,7 @@
                 class: 'check',
                 type: 'button',
                 dataset: { on: String(isDone) },
-                'aria-label': isDone ? 'Desmarcar exercicio' : 'Marcar como feito',
+                'aria-label': isDone ? 'Desmarcar exercício' : 'Marcar como feito',
                 svg: isDone ? '<path d="m7.5 12.4 3 3 6-6.4"/>' : '',
                 onclick: () => toggleExercise(ex.id)
               }),
@@ -332,7 +332,7 @@
 
         if (log.length) {
           root.append(
-            MP.h('p', { class: 'section-label', text: `Historico de ${workout.name} (${log.length})` }),
+            MP.h('p', { class: 'section-label', text: `Histórico de ${workout.name} (${log.length})` }),
             MP.h('div', { class: 'card rows' }, log.slice(0, 20).map((entry) =>
               MP.h('div', { class: 'row row--tight' },
                 MP.h('span', { class: 'row__time', text: MP.fmtDate(entry.date, { short: true }) }),

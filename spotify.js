@@ -11,7 +11,11 @@
   const API = 'https://api.spotify.com/v1';
   const POLL_MS = 5000;
 
-  const KEY_CLIENT = 'sp.clientId';
+  // O Client ID nao e segredo: no fluxo PKCE ele vai na propria URL de autorizacao, visivel
+  // na barra do navegador. Sem os Redirect URIs cadastrados no app do Spotify ele nao serve
+  // para nada, e nao existe client secret aqui.
+  const CLIENT_ID = '06834985f77b46869f100da21bbf119e';
+
   const KEY_VERIFIER = 'sp.verifier';
   const KEY_TOKENS = 'sp.tokens';
 
@@ -19,7 +23,7 @@
   [
     'np', 'npArt', 'npDevice', 'npTitle', 'npBadge', 'npArtist', 'npSeek', 'npElapsed',
     'npRemain', 'npPrev', 'npToggle', 'npNext', 'npCast', 'npDevices', 'npVol',
-    'npField', 'npClientId', 'npSave', 'npConnect', 'npHint'
+    'npConnect', 'npHint'
   ].forEach((id) => {
     el[id.replace(/^np/, '').replace(/^./, (c) => c.toLowerCase()) || 'np'] =
       document.getElementById(id);
@@ -74,20 +78,9 @@
 
   // ---------- auth ----------
 
-  function clientId() {
-    return store.get(KEY_CLIENT, '');
-  }
+  const clientId = () => CLIENT_ID;
 
   async function beginAuth() {
-    const id = clientId();
-    if (!id) {
-      el.field.hidden = false;
-      el.clientId.focus();
-      hint('Crie um app em developer.spotify.com/dashboard, adicione ' +
-           `<strong>${redirectUri}</strong> como Redirect URI e cole o Client ID acima.`);
-      return;
-    }
-
     if (isLocalFile) {
       hint('O login do Spotify nao funciona abrindo o arquivo direto. ' +
            'Rode o servidor local e acesse por http://127.0.0.1:5173');
@@ -98,7 +91,7 @@
     store.set(KEY_VERIFIER, verifier);
 
     const params = new URLSearchParams({
-      client_id: id,
+      client_id: CLIENT_ID,
       response_type: 'code',
       redirect_uri: redirectUri,
       code_challenge_method: 'S256',
@@ -156,7 +149,7 @@
       });
       return true;
     } catch (err) {
-      hint(`Nao deu para autenticar: ${err.message}`);
+      hint(`Não deu para autenticar: ${err.message}`);
       return false;
     }
   }
@@ -201,7 +194,7 @@
     // 403: sem Premium, 404: nenhum aparelho ativo, 429: limite de requisicoes
     if (res.status === 403) { note('requer Premium'); return null; }
     if (res.status === 404) { note('sem aparelho ativo'); return null; }
-    if (res.status === 429) { note('muitas requisicoes'); return null; }
+    if (res.status === 429) { note('muitas requisições'); return null; }
 
     if (res.status === 204) return { empty: true };
     if (!res.ok) return null;
@@ -261,7 +254,7 @@
     el.np.dataset.state = 'playing';
     el.np.dataset.playing = String(playing);
     el.device.textContent = (data.device && data.device.name) || 'Spotify';
-    el.title.textContent = item.name || 'Sem titulo';
+    el.title.textContent = item.name || 'Sem título';
     el.badge.hidden = !item.explicit;
     el.artist.textContent = artists || 'Desconhecido';
     renderArt(art && art.url);
@@ -469,18 +462,6 @@
     if (live) api(`/me/player/volume?volume_percent=${el.vol.value}`, { method: 'PUT' });
   });
 
-  el.save.addEventListener('click', () => {
-    const id = el.clientId.value.trim();
-    if (!id) return;
-    store.set(KEY_CLIENT, id);
-    el.field.hidden = true;
-    hint('Client ID salvo. Clique em Conectar Spotify.');
-  });
-
-  el.clientId.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') el.save.click();
-  });
-
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden && live) poll();
   });
@@ -507,10 +488,6 @@
 
     if (isLocalFile) {
       hint('Abra o site por http://127.0.0.1:5173 para o login funcionar.');
-    } else if (!clientId()) {
-      el.field.hidden = false;
-      hint('Precisa do Client ID de um app no Spotify Developer Dashboard. ' +
-           `Redirect URI: <strong>${redirectUri}</strong>`);
     }
   })();
 })(window.MP);

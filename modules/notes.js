@@ -9,7 +9,7 @@
   let timer = null;
 
   MP.views.anotacoes = {
-    title: 'Anotacoes',
+    title: 'Anotações',
 
     mount(root) {
       function render() {
@@ -20,7 +20,7 @@
 
         const aside = MP.h('aside', { class: 'notes__list' },
           MP.h('button', {
-            class: 'btn btn--blue btn--block', type: 'button', text: '+ Nova anotacao',
+            class: 'btn btn--blue btn--block', type: 'button', text: '+ Nova anotação',
             onclick: () => {
               const note = { id: MP.uid(), title: '', body: '', updated: new Date().toISOString() };
               save(load().concat(note));
@@ -35,10 +35,10 @@
                 dataset: { on: String(note.id === currentId) },
                 onclick: () => { currentId = note.id; render(); }
               },
-                MP.h('strong', { text: note.title || 'Sem titulo' }),
+                MP.h('strong', { text: note.title || 'Sem título' }),
                 MP.h('span', { text: (note.body || '').split('\n')[0].slice(0, 40) || 'Vazia' })
               ))
-            : MP.h('p', { class: 'empty-line', text: 'Nenhuma anotacao.' })
+            : MP.h('p', { class: 'empty-line', text: 'Nenhuma anotação.' })
         );
 
         root.append(MP.h('div', { class: 'notes' }, aside, editor(notes)));
@@ -51,14 +51,14 @@
           return MP.h('div', { class: 'notes__editor' },
             MP.h('div', { class: 'empty' },
               MP.h('div', { class: 'empty__icon', svg: '<path d="M5.5 4.5h9L19 9v10.5h-13z"/><path d="M8.5 12h7M8.5 15.5h5"/>' }),
-              MP.h('p', { class: 'empty__title', text: 'Nenhuma anotacao aberta' }),
+              MP.h('p', { class: 'empty__title', text: 'Nenhuma anotação aberta' }),
               MP.h('p', { class: 'empty__hint', text: 'Crie uma nova ao lado.' })
             )
           );
         }
 
         const title = MP.h('input', {
-          class: 'notes__title', type: 'text', placeholder: 'Titulo',
+          class: 'notes__title', type: 'text', placeholder: 'Título',
           spellcheck: 'false', value: note.title || ''
         });
 
@@ -82,7 +82,7 @@
           // atualiza a lista lateral sem perder o foco do editor
           const item = root.querySelector('.notes__item[data-on="true"]');
           if (item) {
-            item.children[0].textContent = found.title || 'Sem titulo';
+            item.children[0].textContent = found.title || 'Sem título';
             item.children[1].textContent = (found.body || '').split('\n')[0].slice(0, 40) || 'Vazia';
           }
         }

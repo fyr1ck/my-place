@@ -68,7 +68,7 @@
         try {
           list = await MP.files.list();
         } catch (err) {
-          root.append(MP.h('p', { class: 'empty-line', text: `Nao deu para abrir o armazenamento: ${err.message}` }));
+          root.append(MP.h('p', { class: 'empty-line', text: `Não deu para abrir o armazenamento: ${err.message}` }));
           return;
         }
 
@@ -76,7 +76,7 @@
           root.append(MP.h('div', { class: 'empty' },
             MP.h('div', { class: 'empty__icon', svg: ICONS.file }),
             MP.h('p', { class: 'empty__title', text: 'Nenhum arquivo' }),
-            MP.h('p', { class: 'empty__hint', text: 'Ficam salvos no navegador, nao saem daqui.' })
+            MP.h('p', { class: 'empty__hint', text: 'Ficam salvos no navegador, não saem daqui.' })
           ));
           return;
         }

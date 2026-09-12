@@ -93,9 +93,9 @@
       grid.append(tile({
         icon: 'tasks',
         label: 'Tarefas',
-        value: open.length ? String(open.length) : '—',
+        value: open.length ? String(open.length) : '0',
         note: !tasks.length ? 'nada por aqui'
-          : !open.length ? 'tudo concluido'
+          : !open.length ? 'tudo concluído'
             : late ? `${open.length === 1 ? 'aberta' : 'abertas'} · ${late} atrasada(s)`
               : (open.length === 1 ? 'aberta' : 'abertas'),
         tone: late ? 'red' : null,
@@ -110,7 +110,7 @@
       grid.append(tile({
         icon: 'clock',
         label: 'Rotina',
-        value: routine.length ? `${doneToday}/${routine.length}` : '—',
+        value: routine.length ? `${doneToday}/${routine.length}` : '0',
         note: !routine.length ? 'sem itens'
           : doneToday === routine.length ? 'dia completo' : 'de hoje',
         tone: routine.length && doneToday === routine.length ? 'green' : null,
@@ -125,8 +125,8 @@
 
       grid.append(tile({
         icon: 'calendar',
-        label: 'Calendario',
-        value: entries.length ? String(entries.length) : '—',
+        label: 'Calendário',
+        value: entries.length ? String(entries.length) : '0',
         note: !entries.length ? 'nada marcado hoje'
           : next.time ? `${next.time} · ${next.text}` : next.text,
         to: 'calendario'
@@ -143,7 +143,7 @@
       grid.append(tile({
         icon: 'gym',
         label: 'Academia',
-        value: todayDone ? '✓' : (workouts.length ? String(workouts.length) : '—'),
+        value: todayDone ? '✓' : (workouts.length ? String(workouts.length) : '0'),
         note: todayDone ? 'treino feito hoje'
           : !workouts.length ? 'nenhum treino'
             : lastName ? `ultimo: ${MP.fmtDate(gymLog[0].date, { short: true })}` : 'nunca registrado',
@@ -157,9 +157,9 @@
 
       grid.append(tile({
         icon: 'notes',
-        label: 'Anotacoes',
-        value: notes.length ? String(notes.length) : '—',
-        note: notes.length ? (notes[0].title || 'sem titulo') : 'nenhuma anotacao',
+        label: 'Anotações',
+        value: notes.length ? String(notes.length) : '0',
+        note: notes.length ? (notes[0].title || 'sem título') : 'nenhuma anotação',
         to: 'anotacoes'
       }));
 
@@ -167,7 +167,7 @@
       const filesTile = tile({
         icon: 'files',
         label: 'Arquivos',
-        value: '—',
+        value: '0',
         note: 'carregando...',
         to: 'arquivos'
       });
@@ -176,11 +176,11 @@
 
       MP.files.list().then((list) => {
         const total = list.reduce((sum, f) => sum + f.size, 0);
-        filesTile.querySelector('.tile__value').textContent = list.length ? String(list.length) : '—';
+        filesTile.querySelector('.tile__value').textContent = list.length ? String(list.length) : '0';
         filesTile.querySelector('.tile__note').textContent =
           list.length ? MP.fmtSize(total) : 'nenhum arquivo';
       }).catch(() => {
-        filesTile.querySelector('.tile__note').textContent = 'indisponivel';
+        filesTile.querySelector('.tile__note').textContent = 'indisponível';
       });
 
       root.append(grid);

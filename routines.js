@@ -3,13 +3,13 @@
 // Para mudar algo, edite aqui e suba a versão em SEED_VERSION.
 (function (MP) {
   const SEED_KEY = 'mp.gymSeed';
-  const SEED_VERSION = 'v1';
+  const SEED_VERSION = 'v2';
   const GYM = 'mp.gym';
 
   // cada exercício: [nome, séries, repetições, descanso]
   const ROUTINES = [
     {
-      name: '🟥 Segunda — Peito, Tríceps e Ombro',
+      name: '🟥 Segunda · Peito, Tríceps e Ombro',
       groups: [
         ['Peito', [
           ['Supino reto com barra', '4', '4–6', '2–3 min'],
@@ -28,7 +28,7 @@
     },
 
     {
-      name: '🟦 Terça — Costas e Bíceps',
+      name: '🟦 Terça · Costas e Bíceps',
       groups: [
         ['Costas', [
           ['Barra fixa / Puxada alta', '4', '6–10', '2–3 min'],
@@ -45,7 +45,7 @@
     },
 
     {
-      name: '🟩 Quarta — Pernas',
+      name: '🟩 Quarta · Pernas',
       groups: [
         ['Quadríceps', [
           ['Agachamento livre', '4', '4–6', '2–3 min'],
@@ -64,7 +64,7 @@
     },
 
     {
-      name: '🟨 Quinta — Peito, Costas e Braços',
+      name: '🟨 Quinta · Peito, Costas e Braços',
       groups: [
         ['Peito', [
           ['Supino inclinado com barra', '3', '5–8', '2–3 min'],
@@ -85,7 +85,7 @@
     },
 
     {
-      name: '🟪 Sexta — Ombros e Pernas',
+      name: '🟪 Sexta · Ombros e Pernas',
       groups: [
         ['Ombros', [
           ['Desenvolvimento com barra ou máquina', '4', '5–8', '2–3 min'],
@@ -120,6 +120,17 @@
   if (MP.read(SEED_KEY, null) === SEED_VERSION) return;
 
   const current = MP.read(GYM, []);
+
+  // v1 usava travessao no nome; renomeia o que ja esta salvo para nao duplicar
+  let renamed = false;
+  current.forEach((workout) => {
+    if (typeof workout.name === 'string' && workout.name.includes(' — ')) {
+      workout.name = workout.name.replace(' — ', ' · ');
+      renamed = true;
+    }
+  });
+  if (renamed) MP.write(GYM, current);
+
   const names = new Set(current.map((w) => w.name));
   const missing = ROUTINES.filter((r) => !names.has(r.name)).map(build);
 

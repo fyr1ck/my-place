@@ -137,7 +137,7 @@
         <i class="swatch__hex" id="pfBottomHex">#26282d</i>
       </label>
 
-      <button class="btn btn--plain btn--sm btn--block" id="pfResetColor" type="button">Cor padrao</button>
+      <button class="btn btn--plain btn--sm btn--block" id="pfResetColor" type="button">Cor padrão</button>
       <button class="btn btn--plain btn--sm btn--block btn--red" id="pfLogout" type="button">Sair</button>
     </div>
 
@@ -164,7 +164,7 @@
 
       <div class="np__scrub">
         <input class="np__range" id="npSeek" type="range" min="0" max="1000" value="0"
-               step="1" aria-label="Posicao da musica">
+               step="1" aria-label="Posição da música">
         <div class="np__times">
           <span id="npElapsed">0:00</span>
           <span id="npRemain">-0:00</span>
@@ -188,7 +188,7 @@
           </svg>
         </button>
 
-        <button class="np__btn" id="npNext" type="button" aria-label="Proxima">
+        <button class="np__btn" id="npNext" type="button" aria-label="Próxima">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12.4 12 3 18.2V5.8L12.4 12Zm9.2 0-9.4 6.2V5.8L21.6 12Z" fill="currentColor"/>
           </svg>
@@ -221,13 +221,7 @@
 
     <!-- estado: desconectado -->
     <div class="np__connect">
-      <p class="np__pitch">Conecte sua conta para ver o que esta tocando.</p>
-
-      <div class="np__field" id="npField" hidden>
-        <input id="npClientId" type="text" inputmode="latin" autocomplete="off" spellcheck="false"
-               placeholder="Cole o Client ID do Spotify">
-        <button class="np__save" id="npSave" type="button">Salvar</button>
-      </div>
+      <p class="np__pitch">Conecte sua conta para ver o que está tocando.</p>
 
       <button class="np__cta" id="npConnect" type="button">Conectar Spotify</button>
       <p class="np__hint" id="npHint"></p>

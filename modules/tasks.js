@@ -122,7 +122,7 @@
         if (done.length) {
           root.append(
             MP.h('div', { class: 'section-head' },
-              MP.h('p', { class: 'section-label', text: `Concluidas (${done.length})` }),
+              MP.h('p', { class: 'section-label', text: `Concluídas (${done.length})` }),
               MP.h('button', {
                 class: 'btn btn--plain btn--sm', type: 'button', text: 'Limpar',
                 onclick: () => {
