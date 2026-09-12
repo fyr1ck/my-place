@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Place</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <!-- acesso restrito -->
+  <div class="gate" id="gate" hidden>
+    <form class="gate__card" id="gateForm">
+      <div class="gate__logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="4.5" y="10.5" width="15" height="9.5" rx="3"/>
+          <path d="M8.2 10.5V8a3.8 3.8 0 0 1 7.6 0v2.5"/>
+          <circle cx="12" cy="15.2" r="1.2" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+
+      <h1 class="gate__title">My Place</h1>
+      <p class="gate__sub" id="gateSub">Acesso restrito</p>
+
+      <input class="gate__input" id="gateEmail" type="email" placeholder="E-mail"
+             autocomplete="username" spellcheck="false">
+      <p class="gate__email" id="gateEmailFixed" hidden></p>
+      <input class="gate__input" id="gatePass" type="password" placeholder="Senha"
+             autocomplete="current-password">
+      <input class="gate__input" id="gatePass2" type="password" placeholder="Repita a senha"
+             autocomplete="new-password" hidden>
+
+      <button class="gate__btn" id="gateBtn" type="submit">Entrar</button>
+      <p class="gate__error" id="gateError"></p>
+    </form>
+  </div>
+
+  <!-- celular: atalhos para o perfil e para o player -->
+  <div class="dock" id="dock">
+    <button class="dock__btn" id="dockProfile" type="button" data-has="false" aria-label="Perfil">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="9" r="3.4"/>
+        <path d="M5.2 20c.9-3.3 3.5-5 6.8-5s5.9 1.7 6.8 5"/>
+      </svg>
+    </button>
+
+    <button class="dock__btn" id="dockNp" type="button" data-has="false" aria-label="Tocando agora">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="11" fill="#1db954"/>
+        <path d="M6.6 9.3c3.5-1 7.7-.8 10.6 1M7.5 12.3c2.9-.9 6.4-.6 8.9.8M8.3 15.2c2.4-.7 5-.5 6.9.7"
+              fill="none" stroke="#0b0d0e" stroke-width="1.7" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="overlay-back" id="overlayBack"></div>
+
+  <div class="hero" id="hero">
+    <h1 class="welcome">
+      <span>Bem</span> <span>Vindo,</span> <span>Rick.</span>
+    </h1>
+  </div>
+
+  <!-- Perfil: card fixo no lado direito -->
+  <aside class="profile" id="profile" aria-label="Perfil">
+    <div class="profile__banner" id="pfBanner" data-has="false"
+         title="Arraste para posicionar · roda do mouse para zoom · duplo clique para centralizar">
+      <div class="profile__acts">
+        <button class="profile__act" id="pfBannerPick" type="button" title="Trocar capa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 8.8c0-.9.7-1.6 1.6-1.6h1.9l1.2-1.8h6.6l1.2 1.8h1.9c.9 0 1.6.7 1.6 1.6v8c0 .9-.7 1.6-1.6 1.6H5.6c-.9 0-1.6-.7-1.6-1.6Z"/>
+            <circle cx="12" cy="12.6" r="3.1"/>
+          </svg>
+        </button>
+        <button class="profile__act" id="pfBannerClear" type="button" title="Remover capa" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="profile__avatar-wrap">
+      <button class="profile__avatar" id="pfAvatar" type="button" data-has="false"
+              title="Clique para trocar · arraste para posicionar · roda do mouse para zoom · duplo clique para centralizar">
+        <span class="profile__ph">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="9" r="3.6"/>
+            <path d="M5 20c.9-3.4 3.6-5.2 7-5.2s6.1 1.8 7 5.2"/>
+          </svg>
+        </span>
+        <span class="profile__badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 8.8c0-.9.7-1.6 1.6-1.6h1.9l1.2-1.8h6.6l1.2 1.8h1.9c.9 0 1.6.7 1.6 1.6v8c0 .9-.7 1.6-1.6 1.6H5.6c-.9 0-1.6-.7-1.6-1.6Z"/>
+            <circle cx="12" cy="12.6" r="3.1"/>
+          </svg>
+        </span>
+      </button>
+      <button class="profile__clear" id="pfAvatarClear" type="button" title="Remover foto" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+
+    <input class="profile__name" id="pfName" type="text" placeholder="Seu nome"
+           maxlength="42" autocomplete="off" spellcheck="false">
+    <textarea class="profile__bio" id="pfBio" rows="2" maxlength="280"
+              placeholder="Sua bio" spellcheck="false" autocapitalize="sentences"></textarea>
+
+    <button class="profile__paint" id="pfPaint" type="button"
+            title="Mudar a cor do widget" aria-label="Mudar a cor do widget">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.3 0 1.9-.8 1.9-1.7 0-.9-.6-1.6-.6-2.3 0-.8.6-1.4 1.5-1.4h1.7c2 0 3.5-1.5 3.5-3.8 0-4.3-3.6-7.8-8-7.8Z"/>
+        <circle cx="8.4" cy="10.2" r="1.15" fill="currentColor" stroke="none"/>
+        <circle cx="12" cy="7.8" r="1.15" fill="currentColor" stroke="none"/>
+        <circle cx="15.6" cy="10.2" r="1.15" fill="currentColor" stroke="none"/>
+      </svg>
+    </button>
+
+    <div class="profile__palette" id="pfPalette" hidden>
+      <p class="profile__palette-title">Cor do widget</p>
+
+      <label class="swatch">
+        <input class="swatch__input" id="pfTop" type="color" value="#3a3c40">
+        <span class="swatch__label">Topo</span>
+        <i class="swatch__hex" id="pfTopHex">#3a3c40</i>
+      </label>
+
+      <label class="swatch">
+        <input class="swatch__input" id="pfBottom" type="color" value="#26282d">
+        <span class="swatch__label">Base</span>
+        <i class="swatch__hex" id="pfBottomHex">#26282d</i>
+      </label>
+
+      <button class="btn btn--plain btn--sm btn--block" id="pfResetColor" type="button">Cor padrao</button>
+      <button class="btn btn--plain btn--sm btn--block btn--red" id="pfLogout" type="button">Sair</button>
+    </div>
+
+    <input class="hidden-input" id="pfPicker" type="file" accept="image/*">
+  </aside>
+
+  <!-- Now Playing: card fixo no lado esquerdo -->
+  <aside class="np" id="np" data-state="disconnected" aria-label="Tocando agora">
+    <div class="np__art" id="npArt">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9 18V6.8l9-1.6v10M9 18a2.4 2.4 0 1 1-4.8 0A2.4 2.4 0 0 1 9 18Zm9-2.4a2.4 2.4 0 1 1-4.8 0 2.4 2.4 0 0 1 4.8 0Z"
+              fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- estado: conectado -->
+    <div class="np__track">
+      <p class="np__device" id="npDevice">Spotify</p>
+
+      <h2 class="np__title">
+        <span id="npTitle">Nada tocando</span><i class="np__badge" id="npBadge" hidden>E</i>
+      </h2>
+      <p class="np__artist" id="npArtist">Abra algo no Spotify</p>
+
+      <div class="np__scrub">
+        <input class="np__range" id="npSeek" type="range" min="0" max="1000" value="0"
+               step="1" aria-label="Posicao da musica">
+        <div class="np__times">
+          <span id="npElapsed">0:00</span>
+          <span id="npRemain">-0:00</span>
+        </div>
+      </div>
+
+      <div class="np__controls">
+        <button class="np__btn" id="npPrev" type="button" aria-label="Anterior">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M11.6 12 21 5.8v12.4L11.6 12Zm-9.2 0L11.8 5.8v12.4L2.4 12Z" fill="currentColor"/>
+          </svg>
+        </button>
+
+        <button class="np__btn np__btn--main" id="npToggle" type="button" aria-label="Play/Pause">
+          <svg class="np__icon-play" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6.5 4.2 20 12 6.5 19.8V4.2Z" fill="currentColor"/>
+          </svg>
+          <svg class="np__icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="5.6" y="4" width="4.6" height="16" rx="1.5" fill="currentColor"/>
+            <rect x="13.8" y="4" width="4.6" height="16" rx="1.5" fill="currentColor"/>
+          </svg>
+        </button>
+
+        <button class="np__btn" id="npNext" type="button" aria-label="Proxima">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12.4 12 3 18.2V5.8L12.4 12Zm9.2 0-9.4 6.2V5.8L21.6 12Z" fill="currentColor"/>
+          </svg>
+        </button>
+
+        <button class="np__btn np__btn--cast" id="npCast" type="button" aria-label="Aparelhos">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="2.5" fill="currentColor"/>
+            <path d="M8.4 15.6a5.1 5.1 0 0 1 0-7.2m7.2 0a5.1 5.1 0 0 1 0 7.2M5.8 18.2a8.8 8.8 0 0 1 0-12.4m12.4 0a8.8 8.8 0 0 1 0 12.4"
+                  fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+        </button>
+
+        <div class="np__devices" id="npDevices" hidden></div>
+      </div>
+
+      <div class="np__volume">
+        <svg class="np__spk" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 9.5h3.2L11 6v12L7.2 14.5H4v-5Z" fill="currentColor"/>
+        </svg>
+        <input class="np__range np__range--vol" id="npVol" type="range" min="0" max="100" value="70"
+               step="1" aria-label="Volume">
+        <svg class="np__spk" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 9.5h3.2L11 6v12L7.2 14.5H4v-5Z" fill="currentColor"/>
+          <path d="M14.2 9.4a3.6 3.6 0 0 1 0 5.2m2.4-7.6a7 7 0 0 1 0 10"
+                fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- estado: desconectado -->
+    <div class="np__connect">
+      <p class="np__pitch">Conecte sua conta para ver o que esta tocando.</p>
+
+      <div class="np__field" id="npField" hidden>
+        <input id="npClientId" type="text" inputmode="latin" autocomplete="off" spellcheck="false"
+               placeholder="Cole o Client ID do Spotify">
+        <button class="np__save" id="npSave" type="button">Salvar</button>
+      </div>
+
+      <button class="np__cta" id="npConnect" type="button">Conectar Spotify</button>
+      <p class="np__hint" id="npHint"></p>
+    </div>
+  </aside>
+
+  <!-- area principal -->
+  <main class="app" id="app">
+    <header class="app__head">
+      <p class="app__date" id="appDate"></p>
+      <h1 class="app__title" id="appTitle"></h1>
+    </header>
+    <div class="app__view" id="view"></div>
+  </main>
+
+  <nav class="tabbar" id="tabbar" aria-label="Secoes"></nav>
+
+  <!-- folha modal (estilo iOS) -->
+  <div class="sheet" id="sheet" hidden>
+    <div class="sheet__backdrop" id="sheetBackdrop"></div>
+    <div class="sheet__panel" role="dialog" aria-modal="true">
+      <div class="sheet__grabber"></div>
+      <header class="sheet__head">
+        <h2 class="sheet__title" id="sheetTitle"></h2>
+        <button class="sheet__close" id="sheetClose" type="button">Fechar</button>
+      </header>
+      <div class="sheet__body" id="sheetBody"></div>
+    </div>
+  </div>
+
+  <script src="store.js"></script>
+  <script src="routines.js"></script>
+  <script src="auth.js"></script>
+  <script src="hero.js"></script>
+  <script src="mobile.js"></script>
+  <script src="weather.js"></script>
+  <script src="spotify.js"></script>
+  <script src="modules/home.js"></script>
+  <script src="modules/calendar.js"></script>
+  <script src="modules/tasks.js"></script>
+  <script src="modules/notes.js"></script>
+  <script src="modules/files.js"></script>
+  <script src="modules/routine.js"></script>
+  <script src="modules/gym.js"></script>
+  <script src="profile.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
