@@ -34,7 +34,10 @@
     titleEl.textContent = (typeof label === 'function' ? label() : label) || tab.label;
 
     tabbar.querySelectorAll('.tabbar__item').forEach((btn) => {
-      btn.dataset.on = String(btn.dataset.id === active);
+      const on = btn.dataset.id === active;
+      btn.dataset.on = String(on);
+      if (on) btn.setAttribute('aria-current', 'page');
+      else btn.removeAttribute('aria-current');
     });
 
     if (mounted && mounted.unmount) mounted.unmount();
@@ -57,6 +60,7 @@
     tabbar.append(MP.h('button', {
       class: 'tabbar__item',
       type: 'button',
+      'aria-label': tab.label, // o rotulo some em telas menores
       dataset: { id: tab.id, on: 'false' },
       onclick: () => show(tab.id)
     },

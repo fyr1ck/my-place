@@ -8,8 +8,8 @@
   --panel: rgba(46, 48, 54, 0.5);
   --panel-2: rgba(255, 255, 255, 0.07);
   --sep: rgba(255, 255, 255, 0.08);
-  --dim: rgba(255, 255, 255, 0.48);
-  --dim-2: rgba(255, 255, 255, 0.32);
+  --dim: rgba(255, 255, 255, 0.68);
+  --dim-2: rgba(255, 255, 255, 0.55); /* >= 4.5:1 sobre o fundo e os cards */
   --gutter: calc(clamp(12px, 2.2vw, 30px) + var(--card) + 36px);
   --app-max: 1120px;
   --profile: var(--card); /* mesmo tamanho do card do Spotify */
@@ -115,7 +115,7 @@ body.ready .tabbar { animation: appIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s f
   border: 0;
   border-radius: 16px;
   background: transparent;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.62);
   font: inherit;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -1674,6 +1674,19 @@ body.ready .profile { animation: pfIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forward
   .tabbar__label { display: none; }
 }
 
+/* sem rotulo nas abas: a ativa mostra o nome ao lado do icone */
+@media (max-width: 1180px) {
+  .tabbar__item[data-on="true"] {
+    grid-auto-flow: column;
+    align-items: center;
+    gap: 6px;
+    flex: 0 0 auto;
+    width: auto;
+    padding: 8px 12px;
+  }
+  .tabbar__item[data-on="true"] .tabbar__label { display: block; font-size: 12px; white-space: nowrap; }
+}
+
 @media (max-width: 1359px) {
   .profile {
     position: static;
@@ -1878,4 +1891,11 @@ button.tile:active { transform: translateY(-2px) scale(0.97); }
   .notes__list:hover,
   .file:hover,
   button.tile:active { transform: none; }
+}
+
+/* ---------- foco de teclado ---------- */
+/* anel azul em tudo que recebe foco pelo teclado; campos de texto usam o proprio estilo */
+:focus-visible:not(input, textarea, [contenteditable]) {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
 }
