@@ -56,6 +56,20 @@
   // usado pelos widgets do Inicio
   MP.go = show;
 
+  // feedback ao concluir: a secao re-renderiza a lista, entao depois do clique
+  // procura o check novo da mesma linha (pelo texto) e marca para animar
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.check');
+    if (!btn || btn.dataset.on === 'true') return;
+    const text = (btn.parentElement.querySelector('.row__text') || {}).textContent;
+
+    requestAnimationFrame(() => {
+      const hit = Array.from(view.querySelectorAll('.check[data-on="true"]'))
+        .find((c) => (c.parentElement.querySelector('.row__text') || {}).textContent === text);
+      if (hit) hit.dataset.pop = '';
+    });
+  });
+
   TABS.forEach((tab) => {
     tabbar.append(MP.h('button', {
       class: 'tabbar__item',

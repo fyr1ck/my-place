@@ -78,7 +78,8 @@
           found.body = body.value;
           found.updated = new Date().toISOString();
           save(list);
-          stamp.textContent = stampText(found.updated);
+          stamp.textContent = `Salvo · ${stampText(found.updated)}`;
+          stamp.dataset.state = 'saved';
 
           // atualiza a lista lateral sem perder o foco do editor
           const item = root.querySelector('.notes__item[data-on="true"]');
@@ -90,6 +91,8 @@
 
         function schedule() {
           clearTimeout(timer);
+          stamp.textContent = 'Salvando…';
+          stamp.dataset.state = 'saving';
           timer = setTimeout(persist, 400);
         }
 

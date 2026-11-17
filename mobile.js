@@ -54,6 +54,11 @@
     if (!isMobile() && document.body.dataset.overlay) close();
   });
 
+  // marca quando a pagina saiu do topo (o CSS mostra a faixa atras dos icones)
+  const onScroll = () => { document.body.dataset.scrolled = String(window.scrollY > 8); };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
   // miniaturas dos icones, alimentadas pelo perfil e pelo player
   MP.dock = {
     setImage(kind, url, position) {

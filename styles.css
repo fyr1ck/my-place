@@ -102,7 +102,7 @@ body {
 }
 
 /* entra depois que a intro some */
-body.ready .np { animation: npIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+body.ready .np { animation: npIn var(--dur-4) var(--ease-out) forwards; }
 
 @keyframes npIn {
   from {
@@ -242,7 +242,7 @@ body.ready .np { animation: npIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
   background: #fff;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.45);
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--dur-2) var(--ease);
 }
 
 .np__range:hover::-webkit-slider-thumb,
@@ -303,7 +303,7 @@ body.ready .np { animation: npIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
   color: rgba(255, 255, 255, 0.95);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), background 0.18s ease;
+  transition: transform var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease);
 }
 
 .np__btn svg { width: 27px; height: 27px; }
@@ -339,7 +339,7 @@ body.ready .np { animation: npIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
   background: rgba(30, 31, 34, 0.96);
   border: 1px solid rgba(255, 255, 255, 0.09);
   box-shadow: 0 18px 40px -14px rgba(0, 0, 0, 0.85);
-  animation: devIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: devIn var(--dur-2) var(--ease-out);
 }
 
 @keyframes devIn {
@@ -411,7 +411,7 @@ body.ready .np { animation: npIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
   letter-spacing: -0.01em;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), filter 0.18s ease;
+  transition: transform var(--dur-1) var(--ease-out), filter var(--dur-1) var(--ease);
 }
 
 .np__cta:hover { filter: brightness(1.08); }

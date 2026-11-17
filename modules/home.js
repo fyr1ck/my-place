@@ -67,12 +67,19 @@
         ? MP.h('div', { class: 'tile__tasks' }, next.map((task) => MP.h('div', { class: 'tile__task' },
             MP.h('button', {
               class: 'check', type: 'button', 'aria-label': `Concluir: ${task.text}`, dataset: { on: 'false' },
-              onclick: () => {
+              onclick: (e) => {
                 const list = MP.read('mp.tasks', []);
                 const found = list.find((t) => t.id === task.id);
                 if (found) found.done = true;
                 MP.write('mp.tasks', list);
-                node.replaceWith(tasksTile(today));
+
+                // mostra o check verde um instante antes de a tarefa sair da lista
+                const btn = e.currentTarget;
+                btn.dataset.on = 'true';
+                btn.dataset.pop = '';
+                btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7.5 12.4 3 3 6-6.4"/></svg>';
+                btn.disabled = true;
+                setTimeout(() => node.replaceWith(tasksTile(today)), 420);
               }
             }),
             MP.h('span', { class: 'row__text', text: task.text }),

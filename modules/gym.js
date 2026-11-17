@@ -19,6 +19,7 @@
   }
 
   let currentId = null;
+  let popDone = false;
 
   MP.views.academia = {
     title: 'Academia',
@@ -277,13 +278,16 @@
                   class: `btn btn--sm ${doneToday ? 'btn--green' : 'btn--blue'}`,
                   type: 'button',
                   text: doneToday ? 'Feito hoje ✓' : 'Marcar feito hoje',
+                  dataset: popDone ? { pop: '' } : null,
                   onclick: () => {
                     const entries = loadLog();
                     const i = entries.findIndex((e) => e.date === MP.today() && e.workoutId === workout.id);
                     if (i > -1) entries.splice(i, 1);
                     else entries.push({ date: MP.today(), workoutId: workout.id });
                     saveLog(entries);
+                    popDone = i === -1; // so anima ao marcar, nao ao desmarcar
                     render();
+                    popDone = false;
                   }
                 }),
                 MP.h('button', {
