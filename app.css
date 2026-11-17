@@ -398,6 +398,13 @@ body.ready .tabbar { animation: appIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s f
 .btn--red { color: var(--red); }
 .btn--red:hover { background: rgba(255, 69, 58, 0.12); }
 .btn--sm { height: 30px; padding: 0 11px; font-size: 13px; border-radius: 9px; }
+.btn--danger { background: var(--red); color: #fff; }
+
+/* lixeira do treino: discreta e afastada do botao principal */
+.gym__del { opacity: 1; width: 32px; height: 32px; margin-left: 6px; }
+.gym__del svg { width: 17px; height: 17px; }
+
+.sheet__text { margin: 0 0 18px; color: var(--dim); font-size: 14px; line-height: 1.45; }
 .btn--block { width: 100%; }
 
 /* ---------- vazio ---------- */
@@ -435,11 +442,44 @@ body.ready .tabbar { animation: appIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s f
 
 /* ---------- inicio (widgets) ---------- */
 
+/* 3 colunas, os largos ocupam 2 e cada linha fecha certinho:
+   relogio+tempo / tarefas+rotina / academia+calendario / anotacoes+arquivos */
 .home {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
+
+.tile--clock { justify-content: space-between; }
+.tile--notes { grid-column: span 2; }
+
+/* coluna estreita: 2 colunas, relogio inteiro e anotacoes ao lado de arquivos */
+@media (max-width: 960px) {
+  .home { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tile--clock { grid-column: span 2; }
+  .tile--notes { grid-column: span 1; }
+}
+
+/* lista curta de tarefas dentro do widget */
+.tile__link {
+  all: unset;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.tile__link:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+.tile__tasks { display: grid; gap: 2px; margin-top: 8px; }
+
+.tile__task {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 34px;
+  font-size: 14px;
+}
+
+.tile__task .row__text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tile__task .check { flex: none; }
 
 .tile {
   display: flex;
@@ -1073,7 +1113,7 @@ button.tile { cursor: pointer; }
 .profile {
   position: fixed;
   right: clamp(12px, 2.2vw, 30px);
-  top: 50%;
+  top: 44px; /* alinhado ao topo do conteudo */
   z-index: 10;
   width: var(--profile);
   padding-bottom: 16px;
@@ -1088,14 +1128,14 @@ button.tile { cursor: pointer; }
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
   overflow: hidden;
   text-align: center;
-  transform: translateY(-50%) translateX(26px) scale(0.96);
+  transform: translateX(26px) scale(0.96);
 }
 
 body.ready .profile { animation: pfIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
 @keyframes pfIn {
-  from { opacity: 0; transform: translateY(-50%) translateX(26px) scale(0.96); }
-  to { opacity: 1; transform: translateY(-50%) translateX(0) scale(1); }
+  from { opacity: 0; transform: translateX(26px) scale(0.96); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
 }
 
 .profile__banner {
@@ -1754,7 +1794,7 @@ body.ready .profile { animation: pfIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forward
   .tabbar__label { display: none; }
 
   .cal__year { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
-  .home { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .home { gap: 12px; }
   .wx__icon--lg { width: 40px; height: 40px; }
   .wx__temp { font-size: 30px; }
   .wx__city-name { max-width: 96px; }
@@ -1767,7 +1807,7 @@ body.ready .profile { animation: pfIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forward
   body.ready .profile,
   .app--switch .app__title,
   .app--switch .app__view { animation: none; }
-  .profile { transform: translateY(-50%); }
+  @media (min-width: 761px) { .profile { transform: none; } } /* no celular ele e overlay */
   .sheet__panel { transition: none; }
 }
 

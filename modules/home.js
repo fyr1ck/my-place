@@ -26,7 +26,7 @@
     const tag = opts.to ? 'button' : 'div';
 
     return MP.h(tag, {
-      class: `tile${opts.wide ? ' tile--wide' : ''}`,
+      class: `tile${opts.wide ? ' tile--wide' : ''}${opts.cls ? ` ${opts.cls}` : ''}`,
       type: opts.to ? 'button' : null,
       dataset: opts.tone ? { tone: opts.tone } : null,
       onclick: opts.to ? () => MP.go(opts.to) : null
@@ -43,6 +43,48 @@
           )
         : null
     );
+  }
+
+  // widget de tarefas: as 3 proximas abertas (com data primeiro), cada uma com check
+  function tasksTile(today) {
+    const tasks = MP.read('mp.tasks', []);
+    const open = tasks.filter((t) => !t.done);
+    const late = open.filter((t) => t.due && t.due < today).length;
+    const next = open.slice().sort((a, b) => (a.due || '9999').localeCompare(b.due || '9999')).slice(0, 3);
+
+    const note = !tasks.length ? 'nada por aqui'
+      : !open.length ? 'tudo concluído'
+        : late ? `${open.length} ${open.length === 1 ? 'aberta' : 'abertas'} · ${late} atrasada(s)`
+          : `${open.length} ${open.length === 1 ? 'aberta' : 'abertas'}`;
+
+    const node = MP.h('section', { class: 'tile tile--wide', dataset: late ? { tone: 'red' } : null },
+      MP.h('button', { class: 'tile__head tile__link', type: 'button', onclick: () => MP.go('tarefas') },
+        MP.h('i', { class: 'tile__icon', svg: ICONS.tasks }),
+        'Tarefas'
+      ),
+      MP.h('span', { class: 'tile__note', text: note }),
+      next.length
+        ? MP.h('div', { class: 'tile__tasks' }, next.map((task) => MP.h('div', { class: 'tile__task' },
+            MP.h('button', {
+              class: 'check', type: 'button', 'aria-label': `Concluir: ${task.text}`, dataset: { on: 'false' },
+              onclick: () => {
+                const list = MP.read('mp.tasks', []);
+                const found = list.find((t) => t.id === task.id);
+                if (found) found.done = true;
+                MP.write('mp.tasks', list);
+                node.replaceWith(tasksTile(today));
+              }
+            }),
+            MP.h('span', { class: 'row__text', text: task.text }),
+            task.due ? MP.h('span', {
+              class: 'pill', dataset: { late: String(task.due < today) },
+              text: MP.fmtDate(task.due, { short: true })
+            }) : null
+          )))
+        : null
+    );
+
+    return node;
   }
 
   let clockTimer = null;
@@ -71,7 +113,7 @@
         value: hhmm(),
         note: MP.fmtDate(today, { weekday: true }),
         big: true,
-        wide: true
+        cls: 'tile--clock'
       });
 
       grid.append(clock);
@@ -85,22 +127,8 @@
       // ---------- tempo ----------
       if (MP.weather) grid.append(MP.weather.tile());
 
-      // ---------- tarefas ----------
-      const tasks = MP.read('mp.tasks', []);
-      const open = tasks.filter((t) => !t.done);
-      const late = open.filter((t) => t.due && t.due < today).length;
-
-      grid.append(tile({
-        icon: 'tasks',
-        label: 'Tarefas',
-        value: open.length ? String(open.length) : '0',
-        note: !tasks.length ? 'nada por aqui'
-          : !open.length ? 'tudo concluído'
-            : late ? `${open.length === 1 ? 'aberta' : 'abertas'} · ${late} atrasada(s)`
-              : (open.length === 1 ? 'aberta' : 'abertas'),
-        tone: late ? 'red' : null,
-        to: 'tarefas'
-      }));
+      // ---------- tarefas (lista curta, da para concluir daqui) ----------
+      grid.append(tasksTile(today));
 
       // ---------- rotina ----------
       const routine = MP.read('mp.routine', []);
@@ -116,20 +144,6 @@
         tone: routine.length && doneToday === routine.length ? 'green' : null,
         bar: routine.length ? pct : undefined,
         to: 'rotina'
-      }));
-
-      // ---------- calendario ----------
-      const cal = MP.read('mp.calendar', {});
-      const entries = cal[today] || [];
-      const next = entries[0];
-
-      grid.append(tile({
-        icon: 'calendar',
-        label: 'Calendário',
-        value: entries.length ? String(entries.length) : '0',
-        note: !entries.length ? 'nada marcado hoje'
-          : next.time ? `${next.time} · ${next.text}` : next.text,
-        to: 'calendario'
       }));
 
       // ---------- academia ----------
@@ -151,6 +165,21 @@
         to: 'academia'
       }));
 
+      // ---------- calendario ----------
+      const cal = MP.read('mp.calendar', {});
+      const entries = cal[today] || [];
+      const next = entries[0];
+
+      grid.append(tile({
+        icon: 'calendar',
+        label: 'Calendário',
+        value: entries.length ? String(entries.length) : '0',
+        note: !entries.length ? 'nada marcado hoje'
+          : next.time ? `${next.time} · ${next.text}` : next.text,
+        wide: true,
+        to: 'calendario'
+      }));
+
       // ---------- anotacoes ----------
       const notes = MP.read('mp.notes', [])
         .slice().sort((a, b) => (b.updated || '').localeCompare(a.updated || ''));
@@ -160,6 +189,7 @@
         label: 'Anotações',
         value: notes.length ? String(notes.length) : '0',
         note: notes.length ? (notes[0].title || 'sem título') : 'nenhuma anotação',
+        cls: 'tile--notes',
         to: 'anotacoes'
       }));
 

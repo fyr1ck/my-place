@@ -44,6 +44,28 @@
         render();
       }
 
+      // ---------- excluir (sempre confirma: some o treino e o historico dele) ----------
+
+      function confirmDelete(workout) {
+        const bar = MP.actions('Excluir treino', () => {
+          MP.sheet.close();
+          saveLog(loadLog().filter((e) => e.workoutId !== workout.id));
+          currentId = null;
+          update((list) => {
+            const i = list.findIndex((w) => w.id === workout.id);
+            if (i > -1) list.splice(i, 1);
+          });
+        });
+        bar.lastChild.className = 'btn btn--danger';
+
+        MP.sheet.open('Excluir treino?', MP.h('div', {},
+          MP.h('p', { class: 'sheet__text', text: `"${workout.name}" e o histórico dele serão apagados. Não dá para desfazer.` }),
+          bar
+        ), { center: true });
+
+        setTimeout(() => bar.firstChild.focus(), 80);
+      }
+
       // ---------- modal de criacao ----------
 
       function openCreate() {
@@ -265,17 +287,12 @@
                   }
                 }),
                 MP.h('button', {
-                  class: 'btn btn--plain btn--sm btn--red',
+                  class: 'row__del gym__del',
                   type: 'button',
-                  text: 'Excluir treino',
-                  onclick: () => {
-                    saveLog(loadLog().filter((e) => e.workoutId !== workout.id));
-                    currentId = null;
-                    update((list) => {
-                      const i = list.findIndex((w) => w.id === workout.id);
-                      if (i > -1) list.splice(i, 1);
-                    });
-                  }
+                  title: 'Excluir treino',
+                  'aria-label': 'Excluir treino',
+                  svg: '<path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/>',
+                  onclick: () => confirmDelete(workout)
                 })
               )
             ),
