@@ -1,21 +1,32 @@
-// Intro: aparece, segura ~3s e some sozinha. Depois libera a interface (body.ready).
-(function () {
+// Intro: aparece na primeira visita do dia, segura ~1.4s e some. Nas outras visitas
+// do mesmo dia a interface entra direto. Depois libera a interface (body.ready).
+(function (MP) {
   const hero = document.getElementById('hero');
   if (!hero) return;
 
-  const HOLD_MS = 3000;
+  const HOLD_MS = 1400;
+  const SEEN = 'mp.introDay';
   let done = false;
+
+  function ready() { document.body.classList.add('ready'); }
 
   function finish() {
     if (done) return;
     done = true;
 
     hero.classList.add('hero--out');
-    setTimeout(() => document.body.classList.add('ready'), 450);
-    setTimeout(() => { hero.hidden = true; }, 1000);
+    setTimeout(ready, 180);
+    setTimeout(() => { hero.hidden = true; }, 550);
   }
 
   function start() {
+    if (MP.read(SEEN, null) === MP.today()) {
+      hero.hidden = true;
+      ready();
+      return;
+    }
+    MP.write(SEEN, MP.today());
+
     const timer = setTimeout(finish, HOLD_MS);
 
     // qualquer interacao pula a intro
@@ -27,4 +38,4 @@
   // so roda depois de passar pela tela de acesso
   if (document.body.dataset.unlocked === 'true') start();
   else document.addEventListener('mp:unlocked', start, { once: true });
-})();
+})(window.MP);

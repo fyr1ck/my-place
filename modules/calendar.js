@@ -160,6 +160,12 @@
       }
 
       render();
+
+      // abre ja no mes atual, sem animar
+      const current = root.querySelectorAll('.cal__year > *')[new Date().getMonth()];
+      if (current && year === new Date().getFullYear()) {
+        requestAnimationFrame(() => current.scrollIntoView({ block: 'start' }));
+      }
     }
   };
 })(window.MP);

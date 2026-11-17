@@ -17,6 +17,7 @@
 
         const notes = load().sort((a, b) => (b.updated || '').localeCompare(a.updated || ''));
         if (currentId && !notes.some((n) => n.id === currentId)) currentId = null;
+        if (!currentId && notes.length) currentId = notes[0].id; // abre a mais recente
 
         const aside = MP.h('aside', { class: 'notes__list' },
           MP.h('button', {

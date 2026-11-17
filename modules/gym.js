@@ -203,7 +203,11 @@
 
         const workouts = load();
         if (currentId && !workouts.some((w) => w.id === currentId)) currentId = null;
-        if (!currentId && workouts.length) currentId = workouts[0].id;
+        // abre no treino do dia (pelo nome: "Segunda", "Terça"...), senao no primeiro
+        if (!currentId && workouts.length) {
+          const day = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'][new Date().getDay()];
+          currentId = (workouts.find((w) => (w.name || '').includes(day)) || workouts[0]).id;
+        }
 
         if (!workouts.length) {
           root.append(MP.h('div', { class: 'empty' },
